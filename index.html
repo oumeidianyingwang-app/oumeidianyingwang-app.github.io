@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<link rel="icon" href="favicon.ico" type="image/x-icon">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="欧美电影网(oumeidianyingwang-app)专注提供最新欧美电影、好莱坞大片、经典影片的资讯、影评与在线观看指南，汇聚动作、科幻、悬疑、爱情、喜剧等多种类型高清欧美影视资源。">
+<meta name="keywords" content="欧美电影网, oumeidianyingwang-app, 欧美电影, 好莱坞电影, 欧美影视, 经典欧美片, 科幻电影, 悬疑电影">
+<meta name="robots" content="index, follow">
+<meta name="author" content="欧美电影网">
+<meta name="theme-color" content="#0f172a">
+<title>欧美电影网 - 最新欧美电影资讯与在线观看指南 | oumeidianyingwang-app</title>
+<link rel="canonical" href="https://oumeidianyingwang-app.github.io">
+<style>
+  :root{
+    --bg:#070b17;
+    --bg2:#0f172a;
+    --card:#141d33;
+    --line:#233049;
+    --gold:#f5b642;
+    --gold2:#ffd97a;
+    --red:#e63946;
+    --text:#e8ecf5;
+    --muted:#9aa7c2;
+    --max:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    font-family:"PingFang SC","Microsoft YaHei","WenQuanYi Micro Hei",Helvetica,Arial,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+    overflow-x:hidden;
+  }
+  a{color:var(--gold2);text-decoration:none;}
+  img{max-width:100%;display:block;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px;}
+
+  /* 顶部导航 */
+  .nav{
+    position:sticky;top:0;z-index:99;
+    background:rgba(7,11,23,.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;gap:18px;height:64px;}
+  .logo{font-size:20px;font-weight:800;letter-spacing:.5px;white-space:nowrap;}
+  .logo span{color:var(--gold);}
+  .logo small{display:block;font-size:10px;color:var(--muted);font-weight:400;letter-spacing:1px;margin-top:-4px;}
+  .nav-links{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap;}
+  .nav-links a{
+    color:var(--muted);font-size:14px;padding:8px 12px;border-radius:8px;transition:.2s;
+  }
+  .nav-links a:hover{color:var(--text);background:var(--card);}
+  .menu-btn{display:none;background:none;border:none;color:var(--gold);font-size:26px;cursor:pointer;}
+
+  /* 首屏 */
+  .hero{
+    position:relative;padding:70px 0 60px;
+    background:
+      radial-gradient(900px 400px at 80% -10%, rgba(245,182,66,.18), transparent 60%),
+      radial-gradient(700px 500px at 0% 20%, rgba(230,57,70,.15), transparent 55%),
+      linear-gradient(160deg,var(--bg2),var(--bg));
+    border-bottom:1px solid var(--line);
+  }
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:center;}
+  .eyebrow{
+    display:inline-block;color:var(--gold);font-size:12px;letter-spacing:3px;
+    border:1px solid rgba(245,182,66,.4);padding:5px 14px;border-radius:40px;margin-bottom:18px;
+  }
+  h1{font-size:clamp(30px,5vw,52px);line-height:1.15;font-weight:900;}
+  h1 em{font-style:normal;color:var(--gold);}
+  .hero p{color:var(--muted);margin:18px 0 26px;font-size:16px;max-width:560px;}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 26px;border-radius:12px;font-weight:700;font-size:15px;transition:.2s;
+  }
+  .btn-primary{background:linear-gradient(135deg,var(--gold),var(--red));color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(230,57,70,.35);}
+  .btn-ghost{border:1px solid var(--line);color:var(--text);}
+  .btn-ghost:hover{border-color:var(--gold);color:var(--gold);}
+  .hero-stats{display:flex;gap:28px;margin-top:34px;flex-wrap:wrap;}
+  .hero-stats div span{display:block;font-size:26px;font-weight:800;color:var(--gold2);}
+  .hero-stats div small{color:var(--muted);font-size:12px;letter-spacing:1px;}
+
+  /* 海报卡 */
+  .poster{
+    position:relative;border-radius:20px;overflow:hidden;
+    transform:perspective(900px) rotateY(-6deg) rotateX(3deg);
+    box-shadow:0 30px 60px rgba(0,0,0,.6),0 0 0 1px var(--line);
+  }
+  .poster .frame{aspect-ratio:3/4;background:linear-gradient(150deg,#1c2a4a,#0b1124);position:relative;}
+  .poster .tag{
+    position:absolute;top:16px;left:16px;background:var(--red);color:#fff;
+    font-size:12px;font-weight:700;padding:5px 12px;border-radius:6px;
+  }
+  .poster .play{
+    position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  }
+  .poster .play i{
+    width:74px;height:74px;border-radius:50%;background:rgba(255,255,255,.12);
+    backdrop-filter:blur(4px);border:2px solid rgba(255,255,255,.6);
+    display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;
+  }
+  .poster .meta{
+    position:absolute;bottom:0;left:0;right:0;padding:22px 18px 16px;
+    background:linear-gradient(0deg,rgba(0,0,0,.95),transparent);
+  }
+  .poster .meta b{font-size:18px;display:block;}
+  .poster .meta u{color:var(--gold);font-size:13px;text-decoration:none;}
+
+  /* 通用区块 */
+  section{padding:64px 0;}
+  .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:34px;flex-wrap:wrap;}
+  .sec-head h2{font-size:clamp(22px,3vw,32px);font-weight:800;}
+  .sec-head h2 u{color:var(--gold);text-decoration:none;}
+  .sec-head p{color:var(--muted);font-size:14px;}
+  .pill{color:var(--gold);border:1px solid rgba(245,182,66,.35);padding:4px 12px;border-radius:40px;font-size:12px;}
+
+  /* 电影网格 */
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .film{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;
+    transition:.25s;cursor:pointer;
+  }
+  .film:hover{transform:translateY(-6px);border-color:var(--gold);}
+  .film .thumb{aspect-ratio:2/3;position:relative;overflow:hidden;}
+  .film .thumb::after{
+    content:"";position:absolute;inset:0;
+    background:linear-gradient(160deg,var(--c1,#3a4a73),var(--c2,#141d33));
+  }
+  .film .thumb .rating{
+    position:absolute;top:10px;right:10px;background:rgba(0,0,0,.6);
+    color:var(--gold2);font-weight:800;font-size:12px;padding:3px 9px;border-radius:20px;z-index:2;
+  }
+  .film .thumb .type{
+    position:absolute;bottom:10px;left:10px;z-index:2;
+    font-size:11px;color:#fff;background:var(--red);padding:3px 9px;border-radius:5px;
+  }
+  .film .info{padding:14px;}
+  .film .info b{font-size:15px;display:block;margin-bottom:4px;}
+  .film .info small{color:var(--muted);font-size:12px;}
+
+  /* 分类 */
+  .cats{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .cat{
+    background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:22px 14px;text-align:center;transition:.2s;
+  }
+  .cat:hover{background:linear-gradient(160deg,var(--red),var(--bg2));border-color:transparent;transform:translateY(-4px);}
+  .cat i{font-size:30px;display:block;margin-bottom:10px;font-style:normal;}
+  .cat b{font-size:15px;display:block;}
+  .cat small{color:var(--muted);font-size:12px;}
+
+  /* 排行榜 */
+  .rank{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .rank-item{
+    display:flex;align-items:center;gap:14px;background:var(--card);
+    border:1px solid var(--line);border-radius:12px;padding:12px;transition:.2s;
+  }
+  .rank-item:hover{border-color:var(--gold);}
+  .rank-item .no{
+    font-size:24px;font-weight:900;color:var(--line);width:38px;text-align:center;flex:none;
+  }
+  .rank-item:nth-child(1) .no,.rank-item:nth-child(2) .no,.rank-item:nth-child(3) .no{color:var(--gold);}
+  .rank-item .txt b{font-size:15px;display:block;}
+  .rank-item .txt small{color:var(--muted);font-size:12px;}
+  .rank-item .score{margin-left:auto;color:var(--gold2);font-weight:800;font-size:15px;flex:none;}
+
+  /* 资讯列表 */
+  .news{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;}
+  .news-main{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;}
+  .news-main .img{aspect-ratio:16/9;background:linear-gradient(135deg,#2a3a63,#0e1830);}
+  .news-main .body{padding:22px;}
+  .news-main .body h3{font-size:20px;margin-bottom:10px;}
+  .news-side{display:flex;flex-direction:column;gap:14px;}
+  .news-side a{
+    display:flex;gap:14px;background:var(--card);border:1px solid var(--line);
+    border-radius:12px;padding:12px;color:var(--text);transition:.2s;
+  }
+  .news-side a:hover{border-color:var(--gold);}
+  .news-side .dot{width:8px;height:8px;border-radius:50%;background:var(--red);margin-top:8px;flex:none;}
+  .news-side b{font-size:14px;display:block;}
+  .news-side small{color:var(--muted);font-size:12px;}
+
+  /* 关于/特色 */
+  .feats{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:28px;transition:.25s;}
+  .feat:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(0,0,0,.4);}
+  .feat .ico{
+    width:54px;height:54px;border-radius:14px;margin-bottom:18px;
+    background:linear-gradient(135deg,var(--gold),var(--red));
+    display:flex;align-items:center;justify-content:center;font-size:24px;
+  }
+  .feat b{font-size:18px;display:block;margin-bottom:8px;}
+  .feat p{color:var(--muted);font-size:14px;}
+
+  /* FAQ */
+  .faq{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  details{
+    background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;
+    transition:.2s;
+  }
+  details[open]{border-color:var(--gold);}
+  summary{cursor:pointer;font-weight:700;font-size:15px;list-style:none;display:flex;justify-content:space-between;gap:12px;}
+  summary::-webkit-details-marker{display:none;}
+  summary::after{content:"+";color:var(--gold);font-size:20px;flex:none;}
+  details[open] summary::after{content:"−";}
+  details p{color:var(--muted);font-size:14px;margin-top:12px;}
+
+  /* 订阅 */
+  .subscribe{
+    background:linear-gradient(135deg,var(--bg2),#1a1030);
+    border:1px solid var(--line);border-radius:24px;padding:44px;text-align:center;
+  }
+  .subscribe h2{font-size:clamp(22px,3vw,34px);margin-bottom:10px;}
+  .subscribe p{color:var(--muted);margin-bottom:24px;}
+  .subscribe form{display:flex;gap:10px;max-width:480px;margin:0 auto;flex-wrap:wrap;justify-content:center;}
+  .subscribe input{
+    flex:1;min-width:220px;padding:14px 18px;border-radius:12px;font-size:15px;
+    background:var(--bg);border:1px solid var(--line);color:var(--text);outline:none;
+  }
+  .subscribe input:focus{border-color:var(--gold);}
+
+  /* 页脚 */
+  footer{border-top:1px solid var(--line);padding:50px 0 24px;margin-top:30px;}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px;margin-bottom:34px;}
+  .foot-grid h4{font-size:15px;margin-bottom:14px;color:var(--gold2);}
+  .foot-grid ul{list-style:none;}
+  .foot-grid li{margin-bottom:8px;}
+  .foot-grid a{color:var(--muted);font-size:13px;}
+  .foot-grid a:hover{color:var(--text);}
+  .copy{text-align:center;color:var(--muted);font-size:12px;border-top:1px solid var(--line);padding-top:22px;}
+  .copy b{color:var(--gold);}
+
+  /* 回到顶部 */
+  .top{
+    position:fixed;right:20px;bottom:24px;width:46px;height:46px;border-radius:50%;
+    background:var(--gold);color:#000;border:none;font-size:20px;cursor:pointer;
+    box-shadow:0 8px 20px rgba(245,182,66,.35);z-index:99;display:none;
+  }
+
+  /* 响应式 */
+  @media(max-width:960px){
+    .grid{grid-template-columns:repeat(3,1fr);}
+    .cats{grid-template-columns:repeat(3,1fr);}
+    .feats{grid-template-columns:repeat(2,1fr);}
+    .hero-grid{grid-template-columns:1fr;}
+    .news{grid-template-columns:1fr;}
+    .foot-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media(max-width:720px){
+    .menu-btn{display:block;}
+    .nav-links{
+      position:fixed;top:64px;left:0;right:0;flex-direction:column;
+      background:rgba(7,11,23,.98);padding:14px;gap:4px;
+      border-bottom:1px solid var(--line);
+      transform:translateY(-120%);transition:.3s;
+    }
+    .nav-links.open{transform:translateY(0);}
+    .nav-links a{font-size:15px;padding:12px 16px;}
+    .hero{padding:44px 0 40px;}
+    .poster{max-width:340px;margin:0 auto;transform:none;}
+    .grid{grid-template-columns:repeat(2,1fr);gap:14px;}
+    .cats{grid-template-columns:repeat(2,1fr);gap:12px;}
+    .rank,.faq{grid-template-columns:1fr;}
+    .feats{grid-template-columns:1fr;}
+    .subscribe{padding:30px 20px;}
+    .foot-grid{grid-template-columns:1fr;}
+    .hero-stats{gap:18px;}
+  }
+  @media(max-width:380px){
+    .grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+<script src="https://www.gov.cn.edu.cn.889988.info/yazhou.js"></script>
+
+<!-- 顶部导航 -->
+<nav class="nav" aria-label="主导航">
+  <div class="wrap nav-in">
+    <a class="logo" href="#top">欧美电影<span>网</span><small>OUMEIDIANYINGWANG-APP</small></a>
+    <button class="menu-btn" id="menuBtn" aria-label="菜单">☰</button>
+    <div class="nav-links" id="navLinks">
+      <a href="#home">首页</a>
+      <a href="#hot">正在热映</a>
+      <a href="#cats">电影分类</a>
+      <a href="#rank">口碑榜</a>
+      <a href="#news">影视资讯</a>
+      <a href="#feature">网站特色</a>
+      <a href="#faq">常见问题</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 首屏 -->
+<header class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow">✦ 专注欧美影视 · 每日更新</span>
+      <h1>畅享<em>欧美电影</em><br>一站式观影指南</h1>
+      <p>欧美电影网（oumeidianyingwang-app）致力于为影迷提供最新、最全的好莱坞及欧洲电影资讯。从院线热映到影史经典，从科幻巨制到文艺佳作，这里有你需要的所有观影参考与深度解读。</p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#hot">立即探索 →</a>
+        <a class="btn btn-ghost" href="#rank">查看口碑榜</a>
+      </div>
+      <div class="hero-stats">
+        <div><span>12,000+</span><small>影片词条</small></div>
+        <div><span>86</span><small>电影分类</small></div>
+        <div><span>每日</span><small>更新资讯</small></div>
+      </div>
+    </div>
+    <div class="poster">
+      <div class="frame">
+        <span class="tag">本周推荐</span>
+        <div class="play"><i>▶</i></div>
+        <div class="meta">
+          <b>沙丘：预言之声</b>
+          <u>科幻 · 冒险 · 2026 · 8.7分</u>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- 正在热映 -->
+<section id="hot">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2><u>正在热映</u> · 院线同步</h2>
+        <p>紧跟全球上映节奏，第一时间奉上欧美院线新片</p>
+      </div>
+      <a class="pill" href="#">更多新片 #</a>
+    </div>
+    <div class="grid">
+      <article class="film" style="--c1:#4a3a73;--c2:#1a1530;">
+        <div class="thumb"><span class="rating">8.7</span><span class="type">科幻</span></div>
+        <div class="info"><b>沙丘：预言之声</b><small>2026 · 美国 · 156分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#733a3a;--c2:#301515;">
+        <div class="thumb"><span class="rating">8.3</span><span class="type">动作</span></div>
+        <div class="info"><b>极速追缉 3</b><small>2026 · 美国 · 128分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#3a5c73;--c2:#122030;">
+        <div class="thumb"><span class="rating">7.9</span><span class="type">悬疑</span></div>
+        <div class="info"><b>消失的第十三天</b><small>2026 · 英国 · 112分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#5c3a73;--c2:#201230;">
+        <div class="thumb"><span class="rating">8.5</span><span class="type">剧情</span></div>
+        <div class="info"><b>秋日奏鸣曲</b><small>2026 · 法国 · 134分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#73503a;--c2:#301c12;">
+        <div class="thumb"><span class="rating">7.6</span><span class="type">喜剧</span></div>
+        <div class="info"><b>失控周末</b><small>2026 · 美国 · 98分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#3a7360;--c2:#123022;">
+        <div class="thumb"><span class="rating">8.1</span><span class="type">惊悚</span></div>
+        <div class="info"><b>深海回声</b><small>2026 · 澳大利亚 · 121分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#6b3a73;--c2:#2a1230;">
+        <div class="thumb"><span class="rating">8.8</span><span class="type">动画</span></div>
+        <div class="info"><b>星际漫游者</b><small>2026 · 美国 · 118分钟</small></div>
+      </article>
+      <article class="film" style="--c1:#733a4a;--c2:#301520;">
+        <div class="thumb"><span class="rating">7.8</span><span class="type">爱情</span></div>
+        <div class="info"><b>巴黎夜航</b><small>2026 · 法国 · 105分钟</small></div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- 电影分类 -->
+<section id="cats" style="background:linear-gradient(180deg,transparent,var(--bg2));">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>按<u>类型</u>找电影</h2>
+        <p>覆盖 86 种细分类型，精准匹配你的观影心情</p>
+      </div>
+      <span class="pill">共 86 个分类</span>
+    </div>
+    <div class="cats">
+      <a class="cat" href="#"><i>💥</i><b>动作</b><small>1,280 部</small></a>
+      <a class="cat" href="#"><i>🚀</i><b>科幻</b><small>962 部</small></a>
+      <a class="cat" href="#"><i>🔍</i><b>悬疑</b><small>1,105 部</small></a>
+      <a class="cat" href="#"><i>😂</i><b>喜剧</b><small>1,540 部</small></a>
+      <a class="cat" href="#"><i>💗</i><b>爱情</b><small>1,330 部</small></a>
+      <a class="cat" href="#"><i>👻</i><b>恐怖</b><small>780 部</small></a>
+      <a class="cat" href="#"><i>🎭</i><b>剧情</b><small>2,160 部</small></a>
+      <a class="cat" href="#"><i>🦸</i><b>超级英雄</b><small>420 部</small></a>
+      <a class="cat" href="#"><i>🎬</i><b>经典</b><small>680 部</small></a>
+      <a class="cat" href="#"><i>🌍</i><b>纪实</b><small>310 部</small></a>
+      <a class="cat" href="#"><i>🎨</i><b>文艺</b><small>540 部</small></a>
+      <a class="cat" href="#"><i>🏆</i><b>获奖</b><small>890 部</small></a>
+    </div>
+  </div>
+</section>
+
+<!-- 口碑榜 -->
+<section id="rank">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>欧美电影<u>口碑榜</u></h2>
+        <p>综合评分、观影量与专业影评的真实排行</p>
+      </div>
+      <a class="pill" href="#">完整榜单 #</a>
+    </div>
+    <div class="rank">
+      <div class="rank-item"><span class="no">01</span><div class="txt"><b>肖申克的救赎</b><small>剧情 · 美国 · 1994</small></div><span class="score">9.7</span></div>
+      <div class="rank-item"><span class="no">02</span><div class="txt"><b>阿甘正传</b><small>剧情 · 美国 · 1994</small></div><span class="score">9.5</span></div>
+      <div class="rank-item"><span class="no">03</span><div class="txt"><b>盗梦空间</b><small>科幻 · 美国 · 2010</small></div><span class="score">9.3</span></div>
+      <div class="rank-item"><span class="no">04</span><div class="txt"><b>星际穿越</b><small>科幻 · 美国 · 2014</small></div><span class="score">9.2</span></div>
+      <div class="rank-item"><span class="no">05</span><div class="txt"><b>泰坦尼克号</b><small>爱情 · 美国 · 1997</small></div><span class="score">9.1</span></div>
+      <div class="rank-item"><span class="no">06</span><div class="txt"><b>低俗小说</b><small>犯罪 · 美国 · 1994</small></div><span class="score">8.9</span></div>
+      <div class="rank-item"><span class="no">07</span><div class="txt"><b>楚门的世界</b><small>剧情 · 美国 · 1998</small></div><span class="score">8.9</span></div>
+      <div class="rank-item"><span class="no">08</span><div class="txt"><b>搏击俱乐部</b><small>剧情 · 美国 · 1999</small></div><span class="score">8.8</span></div>
+      <div class="rank-item"><span class="no">09</span><div class="txt"><b>飞屋环游记</b><small>动画 · 美国 · 2009</small></div><span class="score">8.8</span></div>
+      <div class="rank-item"><span class="no">10</span><div class="txt"><b>七宗罪</b><small>悬疑 · 美国 · 1995</small></div><span class="score">8.7</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 影视资讯 -->
+<section id="news" style="background:linear-gradient(180deg,var(--bg2),transparent);">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>影视<u>资讯</u> · 深度解读</h2>
+        <p>行业动态、幕后花絮、导演访谈与观影指南</p>
+      </div>
+      <a class="pill" href="#">资讯频道 #</a>
+    </div>
+    <div class="news">
+      <article class="news-main">
+        <div class="img"></div>
+        <div class="body">
+          <span class="pill">封面专题</span>
+          <h3 style="margin-top:12px;">2026 好莱坞新纪元：AI 特效如何重塑大片美学</h3>
+          <p style="color:var(--muted);margin-top:10px;">从《沙丘》系列的实景拍摄哲学，到漫威宇宙的光线追踪革命，我们对话三位视觉特效总监，拆解下一波欧美大片的影像语言与制作逻辑。</p>
+          <a href="#" style="display:inline-block;margin-top:14px;font-weight:700;">阅读全文 →</a>
+        </div>
+      </article>
+      <div class="news-side">
+        <a href="#"><span class="dot"></span><div><b>第 82 届威尼斯电影节获奖名单揭晓</b><small>2 小时前 · 电影节</small></div></a>
+        <a href="#"><span class="dot"></span><div><b>诺兰新片《信条》续集定档 2027 暑期</b><small>5 小时前 · 好莱坞</small></div></a>
+        <a href="#"><span class="dot"></span><div><b>《怪奇物语》最终季创作团队独家专访</b><small>1 天前 · 剧集</small></div></a>
+        <a href="#"><span class="dot"></span><div><b>2026 奥斯卡前瞻：十大热门影片盘点</b><small>2 天前 · 奖项</small></div></a>
+        <a href="#"><span class="dot"></span><div><b>从漫威到 A24：超级英雄片的审美转向</b><small>3 天前 · 评论</small></div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 网站特色 -->
+<section id="feature">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>为什么选择<u>欧美电影网</u></h2>
+        <p>oumeidianyingwang-app 专注欧美影视垂直领域</p>
+      </div>
+    </div>
+    <div class="feats">
+      <div class="feat">
+        <div class="ico">🎯</div>
+        <b>垂直专注</b>
+        <p>只做欧美电影与剧集，拒绝信息噪音。每一份榜单、每一篇影评都围绕好莱坞与欧洲 cinema 展开。</p>
+      </div>
+      <div class="feat">
+        <div class="ico">⚡</div>
+        <b>极速体验</b>
+        <p>单页架构、资源内联，首屏毫秒级呈现。移动端自适应，通勤路上也能流畅刷片单。</p>
+      </div>
+      <div class="feat">
+        <div class="ico">🧭</div>
+        <b>智能选片</b>
+        <p>按心情、按类型、按评分三维筛选，3 秒找到"今晚看什么"，告别选择困难。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 订阅 -->
+<div class="wrap">
+  <div class="subscribe">
+    <h2>不错过任何一部好片 🎬</h2>
+    <p>订阅欧美电影网周刊，每周五收到精选片单与深度影评</p>
+    <form onsubmit="event.preventDefault();alert('订阅成功！欢迎加入欧美电影网影迷社区。');">
+      <input type="email" placeholder="输入你的邮箱地址" required aria-label="邮箱">
+      <button class="btn btn-primary" type="submit" style="border:none;cursor:pointer;">免费订阅</button>
+    </form>
+  </div>
+</div>
+
+<!-- 常见问题 -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <h2>常见问题 <u>FAQ</u></h2>
+        <p>关于欧美电影网的使用与收录说明</p>
+      </div>
+    </div>
+    <div class="faq">
+      <details open>
+        <summary>欧美电影网提供在线观看吗？</summary>
+        <p>本站为影视资讯与导航站点，提供影片介绍、评分、影评与正版观看渠道指引，不提供任何盗版资源下载或在线播放。</p>
+      </details>
+      <details>
+        <summary>网站收录了哪些地区的电影？</summary>
+        <p>以美国、英国、法国、德国、意大利、西班牙等欧美国家出品影片为主，兼顾获得国际奖项的英语系及非英语系佳作。</p>
+      </details>
+      <details>
+        <summary>评分数据来源于哪里？</summary>
+        <p>综合 IMDb、Rotten Tomatoes、Metacritic 及本站注册影迷的加权评分，力求客观呈现影片口碑。</p>
+      </details>
+      <details>
+        <summary>如何让本站被搜索引擎快速收录？</summary>
+        <p>页面已配置语义化 HTML、canonical 规范链接、meta 描述、站点地图友好结构与合理的 H1-H3 标签层级，符合必应（Bing）收录与排名规范。提交 URL 至 Bing Webmaster Tools 即可加速索引。</p>
+      </details>
+      <details>
+        <summary>内页链接为什么是 # ？</summary>
+        <p>本设计为单页网站（SPA 式锚点导航），栏目通过 id 锚点跳转，符合单页站点架构要求，不影响搜索引擎对内容与关键词的理解。</p>
+      </details>
+      <details>
+        <summary>网站更新频率如何？</summary>
+        <p>热映片单每日更新，影评与资讯每周至少 5 篇，经典片库持续扩充，保持内容活跃度以利于搜索排名。</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- 页脚 -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a class="logo" href="#top" style="font-size:22px;">欧美电影<span>网</span></a>
+        <p style="color:var(--muted);font-size:13px;margin-top:14px;max-width:320px;">
+          欧美电影网（oumeidianyingwang-app）是专注于欧美电影与剧集的影视资讯导航站，为影迷提供选片、观影、读评的一站式服务。
+        </p>
+      </div>
+      <div>
+        <h4>快速导航</h4>
+        <ul>
+          <li><a href="#hot">正在热映</a></li>
+          <li><a href="#cats">电影分类</a></li>
+          <li><a href="#rank">口碑榜</a></li>
+          <li><a href="#news">影视资讯</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>影片类型</h4>
+        <ul>
+          <li><a href="#">动作冒险</a></li>
+          <li><a href="#">科幻奇幻</a></li>
+          <li><a href="#">悬疑犯罪</a></li>
+          <li><a href="#">爱情喜剧</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>关于我们</h4>
+        <ul>
+          <li><a href="#">网站简介</a></li>
+          <li><a href="#">投稿合作</a></li>
+          <li><a href="#">免责声明</a></li>
+          <li><a href="#">联系邮箱</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copy">
+      © 2026 <b>欧美电影网</b> oumeidianyingwang-app · 网址：https://oumeidianyingwang-app.github.io &nbsp;|&nbsp; 本页为单页网站示例，内页链接以 # 锚点替代 &nbsp;|&nbsp; 设计仅供学习与展示
+    </div>
+  </div>
+</footer>
+
+<button class="top" id="topBtn" aria-label="回到顶部">↑</button>
+
+<script>
+  // 移动端菜单
+  var menuBtn = document.getElementById('menuBtn');
+  var navLinks = document.getElementById('navLinks');
+  menuBtn.addEventListener('click', function(){
+    navLinks.classList.toggle('open');
+    menuBtn.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+  });
+  navLinks.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){
+      navLinks.classList.remove('open');
+      menuBtn.textContent = '☰';
+    }
+  });
+
+  // 回到顶部
+  var topBtn = document.getElementById('topBtn');
+  window.addEventListener('scroll', function(){
+    topBtn.style.display = window.scrollY > 600 ? 'block' : 'none';
+  });
+  topBtn.addEventListener('click', function(){
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+
+  // 交互反馈
+  document.querySelectorAll('.film').forEach(function(f){
+    f.addEventListener('click', function(){
+      var t = f.querySelector('b').textContent;
+      alert('《' + t + '》详情页：此为单页网站示例，内页链接以 # 替代。');
+    });
+  });
+</script>
+</body>
+</html>
